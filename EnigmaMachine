@@ -15,7 +15,7 @@ body
 <h1>Enigma Machine</h1>
 
 <table style='width: 345px'>
-  <tr>
+	<tr>
 		<th align="right">Input = </th>
 		<td align="center"><input type="text" id="inPut"></td>
 		<td align="center"><input type="button" id="reset" value="Reset"></td>
@@ -44,7 +44,8 @@ body
 </center>
 <script>
 
-var input = 0;
+var str = "";
+var input;
 var output = "";
 var posR1 = 0;
 var posR2 = 0;
@@ -62,20 +63,27 @@ document.getElementById("posRot3").value = posR3;
 
 document.getElementById('inPut').onkeyup = function()
 {
-	input = str2num(document.getElementById('inPut').value);
-	output += String.fromCharCode(encrypt(input) + 65);
-	document.getElementById("outPut").innerHTML = output;
-	
-	if (posR1 == turnover(numR1) && posR2 == turnover(numR2)) posR3 = mod(posR3 + 1);
-	if (posR1 == turnover(numR1)) posR2 = mod(posR2 + 1);
-	posR1 = mod(posR1 + 1);
-	document.getElementById("posRot1").value = posR1;
-	document.getElementById("posRot2").value = posR2;
-	document.getElementById("posRot3").value = posR3;
+	var string = document.getElementById('inPut').value;
+	input = str2num(string);
+	if (input !== false && str.length < string.length)
+	{
+		str += string.slice(string.length - 1);
+		output += String.fromCharCode(encrypt(input) + 65);
+		document.getElementById("outPut").innerHTML = output;
+		
+		if (posR1 == turnover(numR1) && posR2 == turnover(numR2)) posR3 = mod(posR3 + 1);
+		if (posR1 == turnover(numR1)) posR2 = mod(posR2 + 1);
+		posR1 = mod(posR1 + 1);
+		document.getElementById("posRot1").value = posR1;
+		document.getElementById("posRot2").value = posR2;
+		document.getElementById("posRot3").value = posR3;
+	}
+	document.getElementById('inPut').value = str;
 };
 
 document.getElementById('reset').onclick = function()
 {
+	str = "";
 	output = "";
 	posR1 = 0;
 	posR2 = 0;
@@ -142,18 +150,9 @@ function mod(val)
 	else return val;
 }
 
-function turnover(rotor)
+function str2num(string)
 {
-	if(rotor == 1) return 16;
-	if(rotor == 2) return  4;
-	if(rotor == 3) return 21;
-	if(rotor == 4) return  9;
-	if(rotor == 5) return 25;
-}
-
-function str2num(str)
-{
-	var code = str.charCodeAt(str.length - 1);
+	var code = string.charCodeAt(string.length - 1);
 	if (code > 64 && code < 91) return code - 65;
 	else if (code > 96 && code < 123) return code - 97;
 	else return false;
@@ -516,6 +515,15 @@ function rotorDown(input, rotor)
 		if(input ==  2) return 24;
 		if(input == 10) return 25;
 	}
+}
+
+function turnover(rotor)
+{
+	if(rotor == 1) return 16; // Q
+	if(rotor == 2) return  4; // E
+	if(rotor == 3) return 21; // V
+	if(rotor == 4) return  9; // J
+	if(rotor == 5) return 25; // Z
 }
 
 </script>
