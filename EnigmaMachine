@@ -179,6 +179,8 @@ function encrypt(val)
 }
 
 // Defining the encryption of each rotor and reflector:
+// Source: http://www.codesandciphers.org.uk/enigma/rotorspec.htm
+// Including rotor I, II, III, IV & V and reflector B.
 
 function rotorUp(input, rotor)
 {
